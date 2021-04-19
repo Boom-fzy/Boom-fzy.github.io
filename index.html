@@ -122,31 +122,16 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <h2 id="异常介绍"><a href="#异常介绍" class="headerlink" title="异常介绍"></a>异常介绍</h2><p>最近做了个功能,POI导出excel表格,在windows本地环境和Linux测试环境跑起来很正常,但是发现打包到生产环境Linux服务器上后,却一直报错:</p>
-<p><img src="/2021/04/18/prod-error-2021-04-19-1/err_1.png"></p>
-<p>然后检测代码,发现在createSheet()这里居然报数组越界异常！！！<br>然后更换POI的版本，又检查生产环境Linux和测试Linux环境、windows的jdk版本是否一致，但是始终无法解决这个问题。最后发现是生产Linux环境的字体问题，缺少字体。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>生产Linux环境重新安装系统字体库，重启应用，问题得到解决。</p>
-
-        
-        
-          <blockquote id="copyright">
-              <p>原文链接: <a href="https://boom-fzy.github.io/index.html">https://boom-fzy.github.io/index.html</a></p>
-              <p>版权声明: 转载请注明出处.</p>
-          </blockquote>
-        
       
     </div>
     <footer class="article-footer">
       
-        <div class="article-tag-wrap">
-          
-
-          
+        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ApachePOI/" rel="tag">ApachePOI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
 
-          
-
-
-        </div>
+        <p class="article-more-link">
+          <a href="/2021/04/18/prod-error-2021-04-19-1/#more">Read More</a>
+        </p>
       
       
       
@@ -247,6 +232,11 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
+      <p>
+        <a href="#">网站地图</a>
+        <span> | </span><a href="#">订阅本站</a>
+        <span> | </span><a href="#">联系博主</a>
+      </p>
       
         <p>
           <i class="fa fa-visitors"></i>

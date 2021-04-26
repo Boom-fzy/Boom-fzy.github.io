@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>JAVA虚拟机-JVM学习随笔 | 我是一只鱼丶</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <meta name="keywords" content="我是一只鱼丶,JAVA,范正阳">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="我是一只鱼丶" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我是一只鱼丶</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">长风破浪会有时，直挂云帆济沧海</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> 首页</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> 归档</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> 关于</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="搜索"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-study-JVM" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      JAVA虚拟机-JVM学习随笔
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2021-04-26T12:59:45.000Z" itemprop="datePublished">2021年04月26日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  </div>
+
+      
+        <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+      
+      
+<a href="/2021/04/26/study-JVM/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
+      <i id="changyan_count_unit" data-xid="/2021/04/26/study-JVM/"></i>
+    
+  
+  <i class="fa fa-commt"></i>
+  留言
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="JVM内存结构"><a href="#JVM内存结构" class="headerlink" title="JVM内存结构"></a>JVM内存结构</h2><p>首先jvm结构分三部分：类装载器子系统，运行时数据区，执行引擎<br>Java 虚拟机在执行 Java 程序的过程中会把它管理的内存划分为若干个不同的数据区域。每个区域都有各自的作用</p>
+<span id="more"></span>
+
+<h3 id="运行时数据区"><a href="#运行时数据区" class="headerlink" title="运行时数据区"></a>运行时数据区</h3><p>程序寄存器、Java虚拟机栈、Java堆、方法区、运行时常量池、本地方法栈等</p>
+<h4 id="程序寄存器"><a href="#程序寄存器" class="headerlink" title="程序寄存器"></a>程序寄存器</h4><p>每个线程都拥有一个程序寄存器，是线程私有的，用来存储指向下一条指令的地址<br>在创建线程的时候，创建相应的程序寄存器<br>执行本地方法时，程序寄存器的值为 undefined<br>是一块比较小的内存空间，是唯一一个在JVM规范中没有规定 OutOfMemoryError 的内存区域</p>
+<h4 id="Java栈"><a href="#Java栈" class="headerlink" title="Java栈"></a>Java栈</h4><p>栈由一系列帧（栈帧）（Frame）组成（因此Java栈也叫做帧栈），是线程私有的<br>栈帧用来保存一个方法的局部变量、操作数栈（Java没有寄存器，所有参数传递使用操作数栈）、常量池指针、动态链接、方法返回等<br>每一次方法调用创建一个帧，并压栈，退出方法的时候，修改栈顶指针就可以把栈帧中的内容销毁<br>局部变量表存放了编译期可知的各种基本数据类型和引用类型，每个 slot 存放32位的数据，long、double、占两个槽位<br>栈的优点： 存取速度比堆块，仅次于寄存器<br>栈的缺点：存在栈中的数据大小、生存区是在编译器决定的，缺乏灵活性</p>
+<h4 id="Java堆"><a href="#Java堆" class="headerlink" title="Java堆"></a>Java堆</h4><p>用来存放应用系统创建的对象和数组，所有线程共享 Java 堆<br>GC主要管理堆空间，对分代GC来说，堆也是分代的<br>堆的优点：运行期动态分配内存大小，自动进行垃圾回收；<br>堆的缺点：效率相对较慢</p>
+<h4 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h4><p>方法区是线程共享的，通常用来保存装载的类的结构信息<br>通常和元空间关联在一起，但具体的跟JVM实现和版本有关<br>JVM规范把方法区描述为堆的一个逻辑部分，但它有一个别名称为 Non-heap（非堆），应是为了与 Java 堆分开</p>
+<h4 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h4><p>是Class文件中每个类或接口的常量池表，在运行期间的表示形式，通常包括：类的版、字段、方法、接口等信息<br>在方法区中分配<br>通常在加载类和接口到JVM后，就创建相应的运行时常量池</p>
+<h4 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h4><p>在 JVM 中用来支持 native 方法执行的栈就是本地方法栈</p>
+<h2 id="GC-常用参数"><a href="#GC-常用参数" class="headerlink" title="GC 常用参数"></a>GC 常用参数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">-Xmn                                            年轻代</span><br><span class="line">-Xms                                            最小堆</span><br><span class="line">-Xmx                                            最大堆</span><br><span class="line">-Xss                                            栈空间</span><br><span class="line">-XX:+UseTLAB                                    使用TLAB(本地线程分配缓冲区)，默认打开</span><br><span class="line">-XX:+PrintTLAB                                  打印TLAB的使用情况</span><br><span class="line">-XX:TLABSize                                    设置TLAB大小</span><br><span class="line">-XX:+DisableExplictGC                           禁用System.gc()不管用，防止FGC</span><br><span class="line">-XX:+PrintGC                                    打印GC日志</span><br><span class="line">-XX:+PrintGCDetails                             打印GC详细日志信息</span><br><span class="line">-XX:+PrintHeapAtGC                              打印GC前后的详细堆栈信息</span><br><span class="line">-XX:+PrintGCTimeStamps                          打印时间戳</span><br><span class="line">-XX:+PrintGCApplicationConcurrentTime           打印应用程序时间</span><br><span class="line">-XX:+PrintGCApplicationStoppedTime              打印暂停时长</span><br><span class="line">-XX:+PrintReferenceGC                           记录回收了多少种不同引用类型的引用</span><br><span class="line">-verbose:class                                  类加载详细过程</span><br><span class="line">-XX:+PrintVMOptions                             JVM参数</span><br><span class="line">-XX:+PrintFlagsFinal                            查看JVM所有参数值</span><br><span class="line">-XX:+PrintFlagsInital                           查看JVM参数启动的初始值</span><br><span class="line">-Xloggc:opt&#x2F;log&#x2F;gc.log                          GC日志的路径以及文件名称</span><br><span class="line">-XX:MaxTenuringThreshold                        升代年龄，最大值15</span><br></pre></td></tr></table></figure>
+
+<h2 id="垃圾收集器组合选择"><a href="#垃圾收集器组合选择" class="headerlink" title="垃圾收集器组合选择"></a>垃圾收集器组合选择</h2><ul>
+<li>单CPU或小内存，单机程序<ul>
+<li>-XX:+UseSerialGC</li>
+</ul>
+</li>
+<li>多CPU，需要最大吞吐量，如后台计算型应用<ul>
+<li>-XX:+UseParallelGC  </li>
+<li>-XX:+UseParallelOldGC</li>
+</ul>
+</li>
+<li>多CPU，追求低停顿时间，需快速响应如互联网应用<ul>
+<li>-XX:+UseConcMarkSweepGC  </li>
+<li>-XX:+ParNewGC</li>
+</ul>
+</li>
+</ul>
+<hr>
+<style>
+table th:nth-of-type(5) {
+    width: 80px;
+}
+table th:nth-of-type(4) {
+    width: 220px;
+}
+table th:nth-of-type(1) {
+    width: 184px;
+}
+</style>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>新生代垃圾收集器</th>
+<th>新生代算法</th>
+<th>老年代垃圾收集器</th>
+<th>老年代算法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-XX:+UseSerialGC</td>
+<td>SerialGC</td>
+<td>复制</td>
+<td>SerialOldGC</td>
+<td>标记-整理</td>
+</tr>
+<tr>
+<td>-XX:+UseParallelGC</td>
+<td>ParNew</td>
+<td>复制</td>
+<td>SerialOldGC</td>
+<td>标记-整理</td>
+</tr>
+<tr>
+<td>-XX:+UseParallelGC<br>-XX:UseParallelOldGC</td>
+<td>Parallel[Scavenge]</td>
+<td>复制</td>
+<td>SerialOldGC</td>
+<td>标记-整理</td>
+</tr>
+<tr>
+<td>-XX:+UseConcMarkSweepGC</td>
+<td>ParNew</td>
+<td>复制</td>
+<td>SerialOldGC</td>
+<td>标记-整理</td>
+</tr>
+<tr>
+<td>-XX:+UseG1GC</td>
+<td>G1整体上采用标记-整理算法</td>
+<td>局部通过复制算法，不会产生内存碎片</td>
+<td>CMS+SerialOldGC的收集器组合，SerialOldGC作为CMS出错的后备垃圾收集器</td>
+<td>标记-清除</td>
+</tr>
+</tbody></table>
+<h2 id="系统CPU经常100-，如何调优"><a href="#系统CPU经常100-，如何调优" class="headerlink" title="系统CPU经常100%，如何调优"></a>系统CPU经常100%，如何调优</h2><p>CPU100%，那肯定是有线程一直在占用着系统资源，所以具体方法如下：</p>
+<p>1、找出哪个进程cpu占用高                         (top 命名)<br>2、该进程中的哪个线程cpu占用高                   (top -Hp $pid 命令)<br>3、将十进制的tid转化为十六进制                   (printf %x $tid 命令)<br>4、导出该线程的堆栈                              (jstack $pid &gt; $pid.log 命令)<br>5、查找哪个方法(栈帧)消耗时间                    (less $pid.log)<br>6、可以确认工作线程占比高还是垃圾回收线程占比高<br>7、修改代码  </p>
+<h2 id="实际调优场景"><a href="#实际调优场景" class="headerlink" title="实际调优场景"></a>实际调优场景</h2><h3 id="OOM-zipkin分布式链路追踪"><a href="#OOM-zipkin分布式链路追踪" class="headerlink" title="OOM - zipkin分布式链路追踪"></a>OOM - zipkin分布式链路追踪</h3><p>项目之前采取zipkin做分布式链路追踪，后来换成skywalking，所以将zipkin相关配置和代码都移除了，但是忘记移除maven坐标了，运行一段时间后导致了频繁full gc，最后OOM了</p>
+<p>因为配置了OOM后自动生成dump1文件，所以分析dump文件发现大对象是zipkin包里的ConcurrentHashMap$Node，通过观察zipkin的自动配置类ZipkinAutoConfiguration发现即使没有任何zipkin的配置，只要有zipkin的依赖都会创建一个异步报告者，默认的采样率为10%。所以即使不配置相关项，也会以默认采样率10%，发送到zipkin，这是默认的地址是http://localhost:9411/，此时发送到localhost:9411显然会被拒绝。导致堆中的异常实例堆积，从而OOM  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">float</span> probability = <span class="number">0.1f</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ConfigurationProperties(&quot;spring.zipkin&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ZipkinProperties</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String baseUrl = <span class="string">&quot;http://localhost:9411/&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+            <div id="toc-article">
+                
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> 文章目录</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="toc-text">JVM内存结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA"><span class="toc-text">运行时数据区</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-text">程序寄存器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E6%A0%88"><span class="toc-text">Java栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E5%A0%86"><span class="toc-text">Java堆</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="toc-text">方法区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E5%B8%B8%E9%87%8F%E6%B1%A0"><span class="toc-text">运行时常量池</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="toc-text">本地方法栈</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GC-%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0"><span class="toc-text">GC 常用参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E7%BB%84%E5%90%88%E9%80%89%E6%8B%A9"><span class="toc-text">垃圾收集器组合选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9FCPU%E7%BB%8F%E5%B8%B8100-%EF%BC%8C%E5%A6%82%E4%BD%95%E8%B0%83%E4%BC%98"><span class="toc-text">系统CPU经常100%，如何调优</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E8%B0%83%E4%BC%98%E5%9C%BA%E6%99%AF"><span class="toc-text">实际调优场景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OOM-zipkin%E5%88%86%E5%B8%83%E5%BC%8F%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA"><span class="toc-text">OOM - zipkin分布式链路追踪</span></a></li></ol></li></ol>
+    </div>
+  </div>
+
+
+            </div>
+        
+        
+          <blockquote id="copyright">
+              <p>原文链接: <a href="https://boom-fzy.github.io/2021/04/26/study-JVM/">https://boom-fzy.github.io/2021/04/26/study-JVM/</a></p>
+              <p>版权声明: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li></ul>
+
+          
+
+
+        </div>
+      
+      
+        
+<nav id="article-nav">
+  
+  
+    <a href="/2021/04/19/study-git/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">记录常用git命令</div>
+    </a>
+  
+</nav>
+
+      
+      
+        
+
+
+
+
+
+
+  <div id="SOHUCS" sid="2021/04/26/study-JVM/"></div>
+
+
+      
+    </footer>
+  </div>
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> 最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/26/study-JVM/">JAVA虚拟机-JVM学习随笔</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/19/study-git/">记录常用git命令</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/18/prod-error-2021-04-19-1/">记录ApachePIO导出excel时,createSheet()数组越界问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> 标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ApachePOI/" style="font-size: 10px;">ApachePOI</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/git/" style="font-size: 10px;">git</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-classify"></i> 分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E9%97%AE%E9%A2%98/">项目问题</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> 归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021年04月</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> 标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ApachePOI/" rel="tag">ApachePOI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-link"></i> 友情链接</h3>
+    <div class="widget">
+      <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://tool.lu/">在线工具</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://tool.lu/markdown/">在线MarkDown</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://www.processon.com/">在线作图</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://java.bejson.com/generator/">代码生成平台</a>
+        </li>
+      
+      </ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="#">网站地图</a>
+        <span> | </span><a href="#">订阅本站</a>
+        <span> | </span><a href="#">联系博主</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2021 zyf.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        
+            <span>Count by <a href="http://busuanzi.ibruce.info/" target="_blank">busuanzi.</a></span>
+        
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+    window._config = { showScore: true };
+    (function(){
+      var appid = 'cyvqjVxLt';
+      var conf = '7c38242d69c9c424218bb50b906f6e54';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      var nodes =document.getElementsByTagName("head")[0]||document.head||document.documentElement;
+      if (/(Android|iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) && width < 750) {
+          window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+      }
+      else {
+        var loadJs=function(d,a){
+          var b=document.createElement("script");b.setAttribute("type","text/javascript");
+          b.setAttribute("charset","UTF-8");
+          b.setAttribute("src",d);
+          if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}
+          nodes.appendChild(b)
+        };
+        loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});
+      }
+      var loadCss = function(cssString){
+        var style=document.createElement("style");
+        style.setAttribute("type", "text/css");
+        if(style.styleSheet){// IE
+            style.styleSheet.cssText = cssString;
+        } else {// w3c
+            var cssText = document.createTextNode(cssString);
+            style.appendChild(cssText);
+        }
+        nodes.appendChild(style);
+      }
+    })();
+    function removeElement(_element){
+         var _parentElement = _element.parentNode;
+         if(_parentElement){
+                _parentElement.removeChild(_element);
+         }
+    }
+    var removeAD = document.createElement("div");
+    removeAD.id = 'removeAD';
+    var adInterval1 = setInterval(function() {
+      if(document.querySelector("#feedAv")){
+        document.querySelector("[node-type=cmt-list]").appendChild(removeAD);
+        document.querySelector("#removeAD").appendChild(document.querySelector("#feedAv"));
+        //- removeElement(document.querySelectorAll("#feedAv")[0]);
+        var feedAv = document.querySelector("#feedAv").children;
+        for( item of feedAv){
+          item.style.display = 'none'
+        }
+        document.querySelector("#removeAD").style.display="none"
+        clearInterval(adInterval1);
+      }
+    },1000);
+    var adInterval2 = setInterval(function() {
+      if(document.querySelector("#pop_ad")){
+        removeElement(document.querySelector("#pop_ad"));
+        clearInterval(adInterval2);
+      }
+    }, 1000);
+  </script>
+  
+<script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

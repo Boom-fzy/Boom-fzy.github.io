@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   
   
-  <title>tag: ApachePOI | 我是一只鱼丶</title>
+  <title>Git配置SSH Keys步骤 | 我是一只鱼丶</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
   
@@ -81,35 +81,149 @@
 </header>
 
       <div class="outer">
-        <section id="main">
+        <section id="main"><article id="post-git-ssh" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Git配置SSH Keys步骤
+    </h1>
+  
 
-  
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2021-06-08T11:29:33.000Z" itemprop="datePublished">2021年06月08日</time>
+</span>
+      
+  <div class="article-category">
+    <i class="fa fa-classify"></i>
+    <a class="article-category-link" href="/categories/%E9%9A%8F%E5%BF%83%E8%AE%B0%E5%BD%95/">随心记录</a>
+  </div>
+
+      
+        <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+      
+      
+<a href="/2021/06/08/git-ssh/#comments" class="article-comment-link">
   
     
     
-    <section class="archives-wrap">
-      <div class="archive-title">
-        
-          <i class="fa fa-tag"></i>
-          ApachePOI
-        
-      </div>
-      <div class="archives">
+    
+    
+    
+      <i id="changyan_count_unit" data-xid="/2021/06/08/git-ssh/"></i>
+    
   
-  <ul class="archive-article archive-type-post">
-  <li class="archive-article-inner">
-    <a href="/2021/04/18/prod-error-2021-04-19-1/">
-      <time class="dt-published" datetime="2021-04-18T13:53:31.000Z" itemprop="datePublished">2021年04月18日</time>
-      | <span class="archive-article-title">记录ApachePIO导出excel时,createSheet()数组越界问题</span>
+  <i class="fa fa-commt"></i>
+  留言
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Git配置SSH-Keys步骤"><a href="#Git配置SSH-Keys步骤" class="headerlink" title="Git配置SSH Keys步骤"></a>Git配置SSH Keys步骤</h2><p>许多 Git 服务器都使用 SSH 公钥进行认证。 为了向 Git 服务器提供 SSH 公钥，如果某系统用户尚未拥有密钥，必须事先为其生成一份。<br>生成步骤如下：</p>
+<ol>
+<li>设置用户名和邮箱<br>在git命令行中对git进行全局设置<br>git config –global user.name “用户名”<span id="more"></span>
+<img src="/2021/06/08/git-ssh/Snip1.png"></li>
+</ol>
+<p>git config –global user.email “邮箱地址” </p>
+<p><img src="/2021/06/08/git-ssh/Snip2.png"></p>
+<ol start="2">
+<li>生成SSH key<br>在git命令行中，输入命令： cd ~/.ssh ，来检测是否生成过key,没有生成过key，会有相关信息提示 </li>
+</ol>
+<p><img src="/2021/06/08/git-ssh/Snip3.png"></p>
+<p>然后输入命令： ssh-keygen -t rsa -C “邮箱地址” ，按下回车键 </p>
+<p><img src="/2021/06/08/git-ssh/Snip4.png"></p>
+<p>然后根据返回的信息，找到.ssh目录下的两个文件 </p>
+<p><img src="/2021/06/08/git-ssh/Snip6.png"></p>
+<ol start="3">
+<li>在github上添加SSH key<br>在github上点击“setting”，找到添加SSH key的菜单，然后新增SSH key</li>
+</ol>
+<p><img src="/2021/06/08/git-ssh/Snip5.png"></p>
+<p>把文件 id_rsa.pub 里面的内容全部复制到 key 编辑框中，保存完毕</p>
+<p><img src="/2021/06/08/git-ssh/Snip7.png"></p>
+<ol start="4">
+<li>检查SSH key是否有效<br>在git命令行输入：ssh -T <a href="mailto:&#103;&#x69;&#x74;&#x40;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#x2e;&#x63;&#111;&#x6d;">&#103;&#x69;&#x74;&#x40;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#x2e;&#x63;&#111;&#x6d;</a> ；这里会要求你输入SSH key密码，如果刚才生成SSH key时未输入密码，密码就为空；然后看到信息：<br>ERROR: Hi 用户名! You’ve successfully authenticated；说明配置成功；</li>
+</ol>
+<p><img src="/2021/06/08/git-ssh/Snip8.png"></p>
+
+        
+            <div id="toc-article">
+                
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> 文章目录</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Git%E9%85%8D%E7%BD%AESSH-Keys%E6%AD%A5%E9%AA%A4"><span class="toc-text">Git配置SSH Keys步骤</span></a></li></ol>
+    </div>
+  </div>
+
+
+            </div>
+        
+        
+          <blockquote id="copyright">
+              <p>原文链接: <a href="https://boom-fzy.github.io/2021/06/08/git-ssh/">https://boom-fzy.github.io/2021/06/08/git-ssh/</a></p>
+              <p>版权声明: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
+
+          
+
+
+        </div>
+      
+      
+        
+<nav id="article-nav">
+  
+  
+    <a href="/2021/05/18/essays-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">数据库插入数据量过大时分批插入处理(JAVA)</div>
     </a>
-  </li>
-</ul>
+  
+</nav>
+
+      
+      
+        
 
 
 
-  </div></section>
 
 
+
+  <div id="SOHUCS" sid="2021/06/08/git-ssh/"></div>
+
+
+      
+    </footer>
+  </div>
+</article>
 </section>
         
           <aside id="sidebar">

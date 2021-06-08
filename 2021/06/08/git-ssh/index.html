@@ -137,29 +137,22 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <h2 id="Git配置SSH-Keys步骤"><a href="#Git配置SSH-Keys步骤" class="headerlink" title="Git配置SSH Keys步骤"></a>Git配置SSH Keys步骤</h2><p>许多 Git 服务器都使用 SSH 公钥进行认证。 为了向 Git 服务器提供 SSH 公钥，如果某系统用户尚未拥有密钥，必须事先为其生成一份。<br>生成步骤如下：</p>
-<ol>
-<li>设置用户名和邮箱<br>在git命令行中对git进行全局设置<br>git config –global user.name “用户名”<span id="more"></span>
-<img src="/2021/06/08/git-ssh/Snip1.png"></li>
-</ol>
+<h4 id="1-设置用户名和邮箱"><a href="#1-设置用户名和邮箱" class="headerlink" title="1. 设置用户名和邮箱"></a>1. 设置用户名和邮箱</h4><p>在git命令行中对git进行全局设置<br>git config –global user.name “用户名”</p>
+<span id="more"></span>
+<p><img src="/2021/06/08/git-ssh/Snip1.png"></p>
 <p>git config –global user.email “邮箱地址” </p>
 <p><img src="/2021/06/08/git-ssh/Snip2.png"></p>
-<ol start="2">
-<li>生成SSH key<br>在git命令行中，输入命令： cd ~/.ssh ，来检测是否生成过key,没有生成过key，会有相关信息提示 </li>
-</ol>
+<h4 id="2-生成SSH-key"><a href="#2-生成SSH-key" class="headerlink" title="2. 生成SSH key"></a>2. 生成SSH key</h4><p>在git命令行中，输入命令： cd ~/.ssh ，来检测是否生成过key,没有生成过key，会有相关信息提示 </p>
 <p><img src="/2021/06/08/git-ssh/Snip3.png"></p>
 <p>然后输入命令： ssh-keygen -t rsa -C “邮箱地址” ，按下回车键 </p>
 <p><img src="/2021/06/08/git-ssh/Snip4.png"></p>
 <p>然后根据返回的信息，找到.ssh目录下的两个文件 </p>
 <p><img src="/2021/06/08/git-ssh/Snip6.png"></p>
-<ol start="3">
-<li>在github上添加SSH key<br>在github上点击“setting”，找到添加SSH key的菜单，然后新增SSH key</li>
-</ol>
+<h4 id="3-在github上添加SSH-key"><a href="#3-在github上添加SSH-key" class="headerlink" title="3. 在github上添加SSH key"></a>3. 在github上添加SSH key</h4><p>在github上点击“setting”，找到添加SSH key的菜单，然后新增SSH key</p>
 <p><img src="/2021/06/08/git-ssh/Snip5.png"></p>
 <p>把文件 id_rsa.pub 里面的内容全部复制到 key 编辑框中，保存完毕</p>
 <p><img src="/2021/06/08/git-ssh/Snip7.png"></p>
-<ol start="4">
-<li>检查SSH key是否有效<br>在git命令行输入：ssh -T <a href="mailto:&#103;&#x69;&#x74;&#x40;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#x2e;&#x63;&#111;&#x6d;">&#103;&#x69;&#x74;&#x40;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#x2e;&#x63;&#111;&#x6d;</a> ；这里会要求你输入SSH key密码，如果刚才生成SSH key时未输入密码，密码就为空；然后看到信息：<br>ERROR: Hi 用户名! You’ve successfully authenticated；说明配置成功；</li>
-</ol>
+<h4 id="4-检查SSH-key是否有效"><a href="#4-检查SSH-key是否有效" class="headerlink" title="4. 检查SSH key是否有效"></a>4. 检查SSH key是否有效</h4><p>在git命令行输入：ssh -T <a href="mailto:&#103;&#105;&#116;&#64;&#103;&#105;&#116;&#x68;&#x75;&#98;&#x2e;&#x63;&#111;&#109;">&#103;&#105;&#116;&#64;&#103;&#105;&#116;&#x68;&#x75;&#98;&#x2e;&#x63;&#111;&#109;</a> ；这里会要求你输入SSH key密码，如果刚才生成SSH key时未输入密码，密码就为空；然后看到信息：<br>ERROR: Hi 用户名! You’ve successfully authenticated；说明配置成功；</p>
 <p><img src="/2021/06/08/git-ssh/Snip8.png"></p>
 
         
@@ -168,7 +161,7 @@
   <div class="widget-wrap" id="toc-wrap">
     <h3 class="widget-title"><i class="fa fa-toc"></i> 文章目录</h3>
     <div class="widget">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Git%E9%85%8D%E7%BD%AESSH-Keys%E6%AD%A5%E9%AA%A4"><span class="toc-text">Git配置SSH Keys步骤</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Git%E9%85%8D%E7%BD%AESSH-Keys%E6%AD%A5%E9%AA%A4"><span class="toc-text">Git配置SSH Keys步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1"><span class="toc-text">1. 设置用户名和邮箱</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%94%9F%E6%88%90SSH-key"><span class="toc-text">2. 生成SSH key</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%9C%A8github%E4%B8%8A%E6%B7%BB%E5%8A%A0SSH-key"><span class="toc-text">3. 在github上添加SSH key</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%A3%80%E6%9F%A5SSH-key%E6%98%AF%E5%90%A6%E6%9C%89%E6%95%88"><span class="toc-text">4. 检查SSH key是否有效</span></a></li></ol></li></ol></li></ol>
     </div>
   </div>
 
